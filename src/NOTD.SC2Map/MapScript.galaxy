@@ -1003,6 +1003,7 @@ int[4][9] gv_shellDecre;
 int[4][9] gv_shellIncre;
 int[9] gv_shellDialog;
 unitgroup[9] gv_mobileInfantryGroup;
+bool[9] gv_gunshipTeamUI;
 bool[9] gv_gunshipActive;
 unit[9] gv_gunshipUnit;
 bool[9] gv_gunshipCameraSwitch;
@@ -1467,6 +1468,9 @@ void InitGlobals () {
     }
     for (init_i = 0; init_i <= 8; init_i += 1) {
         gv_mobileInfantryGroup[init_i] = UnitGroupEmpty();
+    }
+    for (init_i = 0; init_i <= 8; init_i += 1) {
+        gv_gunshipTeamUI[init_i] = true;
     }
     for (init_i = 0; init_i <= gv_numberofPlayers; init_i += 1) {
         gv_talentTrees[init_i].lv_talentTree = c_invalidDialogId;
@@ -38995,7 +38999,10 @@ bool gt_GunshipSupport_Func (bool testConds, bool runActions) {
     }
     PlayerGroupLoopEnd();
     libNtve_gf_HideGameUI(false, PlayerGroupSingle(lv_forwardObserverOwner));
-    DialogControlSetVisible(gv_teamUI, PlayerGroupSingle(lv_forwardObserverOwner), false);
+    if ((gv_gunshipTeamUI[lv_forwardObserverOwner] == false)) {
+        DialogControlSetVisible(gv_teamUI, PlayerGroupSingle(lv_forwardObserverOwner), false);
+    }
+
     gv_gunshipCinematicActive[lv_forwardObserverOwner] = true;
     gv_gameUIHidden[lv_forwardObserverOwner] = true;
     UIDisplayMessage(PlayerGroupSingle(lv_forwardObserverOwner), c_messageAreaDebug, StringExternal("Param/Value/EDD297E3"));
@@ -39167,6 +39174,10 @@ bool gt_GunshipSupport_Func (bool testConds, bool runActions) {
     UnitRemove(gv_gunshipUnit[lv_forwardObserverOwner]);
     gf_ShowHideMarineDialog(true, lv_forwardObserverOwner, lv_forwardObserverOwner);
     DialogControlSetVisible(gv_teamUI, PlayerGroupSingle(lv_forwardObserverOwner), true);
+    if ((gv_gunshipTeamUI[lv_forwardObserverOwner] == false)) {
+        DialogControlSetVisible(gv_teamUI, PlayerGroupSingle(lv_forwardObserverOwner), true);
+    }
+
     CameraLockInput(lv_forwardObserverOwner, false);
     return true;
 }
@@ -39220,6 +39231,16 @@ bool gt_GunshipOtherKeys_Func (bool testConds, bool runActions) {
             gv_gunshipZoom[lv_index] = false;
         }
     }
+    else if ((EventKeyPressed() == c_keyU)) {
+        if ((gv_gunshipTeamUI[lv_index] == true)) {
+            gv_gunshipTeamUI[lv_index] = false;
+            DialogControlSetVisible(gv_teamUI, PlayerGroupSingle(lv_index), false);
+        }
+        else {
+            gv_gunshipTeamUI[lv_index] = true;
+            DialogControlSetVisible(gv_teamUI, PlayerGroupSingle(lv_index), true);
+        }
+    }
     return true;
 }
 
@@ -39230,6 +39251,7 @@ void gt_GunshipOtherKeys_Init () {
     TriggerAddEventKeyPressed(gt_GunshipOtherKeys, c_playerAny, c_keyC, true, c_keyModifierStateExclude, c_keyModifierStateExclude, c_keyModifierStateExclude);
     TriggerAddEventKeyPressed(gt_GunshipOtherKeys, c_playerAny, c_keyZ, true, c_keyModifierStateExclude, c_keyModifierStateExclude, c_keyModifierStateExclude);
     TriggerAddEventKeyPressed(gt_GunshipOtherKeys, c_playerAny, c_keyM, true, c_keyModifierStateExclude, c_keyModifierStateExclude, c_keyModifierStateExclude);
+    TriggerAddEventKeyPressed(gt_GunshipOtherKeys, c_playerAny, c_keyU, true, c_keyModifierStateExclude, c_keyModifierStateExclude, c_keyModifierStateExclude);
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -1747,6 +1747,7 @@ Variable/Name/4E0A30BB=PlayerExitButton
 Variable/Name/4E5140F6=LocalUnitA
 Variable/Name/4E90F955=SpawnPointReset
 Variable/Name/4E9BF4BF=LocalPointA
+Variable/Name/4EDB7E77=Gunship TeamUI
 Variable/Name/4F1F01C6=Stat 1st Image Border Offset X
 Variable/Name/4F37F26D=BossDeathArea
 Variable/Name/4F445D70=Stories
