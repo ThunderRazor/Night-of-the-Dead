@@ -4427,7 +4427,7 @@ bool auto_gf_SmartSpawnWithBehaviorNOTD_TriggerFunc (bool testConds, bool runAct
     string lp_behaviorC = auto_gf_SmartSpawnWithBehaviorNOTD_lp_behaviorC;
 
     // Variable Declarations
-    int lv_kiftadtexaiclfdc;
+    int lv_oocovsuyxbpirwnl;
     point lv_unitSpawnPoint;
     unit lv_spawnUnit;
     bool lv_spawnPointReset;
@@ -6717,7 +6717,7 @@ bool gf_PostCinematicProcessing () {
             }
 
             libNtve_gf_RestoreUnitSelection(auto5200998B_var);
-            gf_ShowHideMarineDialog(true, auto5200998B_var, lv_cinematicPlayers);
+            gf_ShowHideMarineDialog(true, auto5200998B_var, PlayerGroupSingle(auto5200998B_var));
             DialogSetVisible(gv_equipment, PlayerGroupSingle(auto5200998B_var), true);
             CameraApplyInfo(auto5200998B_var, CameraInfoDefault(), 0.0, -1, 10, true);
             if ((UnitIsAlive(gv_marineHero[auto5200998B_var]) == true)) {
@@ -41168,10 +41168,10 @@ bool gt_GunshipSupport_Func (bool testConds, bool runActions) {
                 if ((DistanceBetweenPoints(UnitGetPosition(gv_gunshipFollowedUnit[lv_forwardObserverOwner]), UnitGetPosition(autoD87BAE60_var)) > 1.2)) {
                     UnitIssueOrder(autoD87BAE60_var, Order(AbilityCommand("SpectreHoldFire", 0)), c_orderQueueReplace);
                     UnitIssueOrder(autoD87BAE60_var, OrderTargetingUnit(AbilityCommand("move", 0), gv_gunshipFollowedUnit[lv_forwardObserverOwner]), c_orderQueueAddToEnd);
-                    UnitIssueOrder(autoD87BAE60_var, Order(AbilityCommand("stop", 0)), c_orderQueueAddToEnd);
-                    UnitIssueOrder(autoD87BAE60_var, Order(AbilityCommand("SpectreWeaponsFree", 0)), c_orderQueueAddToEnd);
                 }
-
+                else {
+                    UnitIssueOrder(autoD87BAE60_var, Order(AbilityCommand("SpectreWeaponsFree", 0)), c_orderQueueAddToFront);
+                }
             }
         }
 
